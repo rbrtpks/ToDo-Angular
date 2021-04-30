@@ -1,0 +1,55 @@
+<section class="container">
+
+  <div class="card bg-light text-dark mt-4 mb-3">
+    <div class="row mt-3 mb-3">
+
+      <div class="col-4 ml-4">
+        <select (change)="getToDoList(selectedOption)" [(ngModel)]="selectedOption" class="form-control">
+          <option *ngFor="let item of status;let x = index" [ngValue]="item.id" class="dropdown-item">{{item.name}}</option>
+        </select>
+      </div>
+
+      <div class="col-5 text-right">
+        <button class="btn btn-info" (click)="giveMeChores()">Give me chores</button>
+      </div>
+      <div class="col-2 text-right">
+        <button class="btn btn-info" (click)="newTask()">New Task</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div class="table-overflow">
+        <table class="table table-bordered table-hover">
+          <tr class="column table-dark">
+            <th>Description</th>
+            <th>Responsible</th>
+            <th>E-mail</th>
+            <th>Status</th>
+          </tr>
+          <tr *ngFor="let item of todo_list" class="body-table table-light">
+            <th *ngIf="!rowEditing || item.id != idEditing">{{item.description}}</th>
+            <th *ngIf="rowEditing && item.id == idEditing">
+              <input type="text" name="description" size="20" [(ngModel)]="item.description">
+            </th>
+            <th *ngIf="!rowEditing || item.id != idEditing">{{item.responsible}}</th>
+            <th *ngIf="rowEditing && item.id == idEditing">
+              <input type="text" name="responsible" size="20" [(ngModel)]="item.responsible">
+            </th>
+            <th *ngIf="!rowEditing || item.id != idEditing">{{item.email}}</th>
+            <th *ngIf="rowEditing && item.id == idEditing">
+              <input type="text" name="email" size="20" [(ngModel)]="item.email">
+            </th>
+            <th>
+              <select (change)=modifyStatus(item) [(ngModel)]="item.status" class="form-control">
+                <option *ngFor="let i of status" value="{{i.id}}">{{i.id == 'pending' ? 'Pending' : 'Completed'}}</option>
+              </select>
+            </th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

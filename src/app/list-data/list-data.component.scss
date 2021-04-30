@@ -1,0 +1,22 @@
+.table {
+    align-items: center;
+    font-size: 13px;
+}
+
+.table-overflow {
+    max-height:480px;
+    overflow-y:auto;
+}
+
+.column {
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid;
+    th {
+        background-color: rgb(121, 119, 119) !important;
+    }
+}
+
+.body-table {
+  text-align: center;
+}
