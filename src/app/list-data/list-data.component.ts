@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ModalNewTask } from './new-task-modal';
 import { ListDataService } from './list-data.service'
-import { WebSocketService } from '../websocket/websocket.service'
 import Swal from 'sweetalert2'
 
 @Component({
@@ -23,16 +22,21 @@ export class ListDataComponent implements OnInit {
 
   errorMessage: String = '';
 
+
+  messages = [];
+  connection;
+
   constructor(
     private service: ListDataService,
-    private ws: WebSocketService,
     private modalService: NgbModal,
-    private toastr: ToastrService)
-  { }
+    private toastr: ToastrService) { }
 
-  async ngOnInit() {    
+  async ngOnInit() {
     this.getToDoList(this.selectedOption)
-    this.ws.openWebsocket()
+    this.service.connect().subscribe((message: any) => {
+      this.todo_list = new Array
+      this.todo_list = this.selectedOption == 'pending' ? message.pending : message.completed
+    })
   }
 
   async getToDoList(selected) {
@@ -81,8 +85,8 @@ export class ListDataComponent implements OnInit {
       if (item.status == 'pending') item.count_to_pending++
 
       await this.service.save(item)
+      this.service.sendMessage('updateListAllClients')
       this.showSuccess('Success!')
-      this.getToDoList(this.selectedOption)
     } catch (err) {
       console.log("err")
       this.showError('Contact your system administrator!')
@@ -92,9 +96,9 @@ export class ListDataComponent implements OnInit {
   async giveMeChores() {
     try {
       await this.service.giveMeChores()
-      
+
+      await this.service.sendMessage('updateListAllClients')
       this.showSuccess('Success!')
-      this.getToDoList(this.selectedOption)
     } catch (err) {
       console.log("err")
       this.showError('Contact your system administrator!')

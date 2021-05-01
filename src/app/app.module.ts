@@ -12,7 +12,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListDataComponent } from './list-data/list-data.component';
 import { ListDataService } from './list-data/list-data.service';
 import { ModalNewTask } from './list-data/new-task-modal';
-import { WebSocketService } from './websocket/websocket.service';
 
 @NgModule({
   declarations: [
@@ -32,8 +31,7 @@ import { WebSocketService } from './websocket/websocket.service';
   ],
   providers: [
     ListDataService,
-    ModalNewTask,
-    WebSocketService
+    ModalNewTask
   ],
   bootstrap: [AppComponent]
 })

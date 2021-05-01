@@ -49,7 +49,11 @@ export class ModalNewTask {
   }
   errorMessage: String = '';
 
-  constructor(public activeModal: NgbActiveModal, private service: ListDataService, private toastr: ToastrService) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    private service: ListDataService,
+    private toastr: ToastrService
+    ) { }
 
   async save() {
     try {
@@ -57,6 +61,7 @@ export class ModalNewTask {
 
       if(checkMail.format_valid && checkMail.mx_found) {
         await this.service.save(this.data)
+        this.service.sendMessage('updateListAllClients')
         this.activeModal.close()
         this.showSuccess('Success!')
       } else {
